@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- head -->
+    <meta charset="utf-8">
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Autoplay usage demo">
+    <meta name="author" content="David Deutsch">
+    
+    <!-- Stylesheets -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,400italic,300italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./OwlCarousel2-2.2.1/assets/css/docs.theme.min.css">
+
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="./OwlCarousel2-2.2.1/assets/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="./OwlCarousel2-2.2.1/assets/owlcarousel/assets/owl.theme.default.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    
+    <!-- Yeah i know js should not be in header. Its required for demos.-->
+
+    <!-- javascript -->
+    <script src="./OwlCarousel2-2.2.1/assets/vendors/jquery.min.js"></script>
+    <script src="./OwlCarousel2-2.2.1/assets/owlcarousel/owl.carousel.js"></script>
+  </head>
+  <body>
+
+    <!--  Demos -->
+    <section>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="owl-carousel owl-theme" id=fb>
+            
+
+          </div>
+          
+          <script>
+            $(document).ready(function() {
+              var owl = $('.owl-carousel');
+              owl.owlCarousel({
+                items: 4,
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 1000,
+                autoplayHoverPause: true
+              });
+              
+            })
+          </script>
+        </div>
+      </div>
+    </section>
+
+    <!-- vendors -->
+    <script src="./OwlCarousel2-2.2.1/assets/vendors/highlight.js"></script>
+    <script src="./OwlCarousel2-2.2.1/assets/js/app.js"></script>
+
+    <script type="text/javascript">
+    var out="";
+    var img_arr=["https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.0-9/15726511_1128712583864269_8402096588156316538_n.jpg?_nc_fx=ftpe7-2&oh=4378eb9a7adefee891c9a78d01972d89&oe=5AB4FD76",
+    "https://scontent.ftpe7-2.fna.fbcdn.net/v/t1.0-1/p720x720/23319030_1408350932595421_5661037904977966554_n.png?oh=6f95fd1ce195fa7c30004da95645d660&oe=5AF5C157",
+    "https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.0-9/10704128_818248031549573_186269322482759701_n.jpg?_nc_fx=ftpe7-2&oh=d11e2504d4ae9999e722f73001cabeac&oe=5AEB9872",
+    "https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.0-9/303444_377920982242921_92101042_n.jpg?_nc_fx=ftpe7-1&oh=c94be1b927a165699961a646ebe82a2b&oe=5AEF451F",
+    "https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.0-9/10403419_1001592163202286_3927383526946866716_n.jpg?_nc_fx=ftpe7-2&oh=37f76cfd77dd0a38de467d2a3bcdf3ee&oe=5AB1D06F"
+    ];
+    var links=["https://www.facebook.com/saseoul",
+    "https://zh-tw.facebook.com/creatrip.tw/",
+    "https://www.facebook.com/big5chinese.visitkorea/",
+    "https://www.facebook.com/judyer1010/",
+    "https://zh-tw.facebook.com/gotokr/"
+    ];
+    var fbtitle=["韓國旅遊 S.A.Tour","韓國人才知道的韓國旅遊: Creatrip","韓國觀光公社 - VisitKorea","首爾就該這樣慢慢玩","我在前往韓國旅遊的路上"];
+
+    for(i = 0; i < 5 ; i++) {
+      out+=`<div class="item">
+              <img src=`+img_arr.pop()+` style="width:120px;height:120px;" />
+              <a href=`+links.pop()+` target="_blank" style="font-size:14px; color: #1565c0;">
+              `+fbtitle.pop()+`</a>
+            </div>`;
+    } 
+      document.getElementById('fb').innerHTML=out;
+    </script>
+  </body>
+</html>

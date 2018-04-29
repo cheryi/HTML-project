@@ -1,0 +1,546 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <!--Lesson5-->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">     
+      <!-- 利用Tabletop.JS讀取Google Sheet https://github.com/jsoma/tabletop -->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	  <!--CSS-->
+	  <style>
+		.collapsible{
+			margin: 10px 20%;
+			width: 60%;
+		}
+		.collapsible-header{
+			background-color: #f06292; /*pink lighten-2;*/
+			color: #FFFFFF;
+			font-size:18px;
+		}
+		#hotel_links{
+			text-align : center;
+		}
+		
+	  </style>
+    </head>
+	
+	<body>
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+	  
+	<!--navbar部分-->
+	<nav class="nav-extended deep-purple lighten-1">
+		<div class="nav-wrapper">
+		<a href="#" class="button-collapse show-on-large" data-activates="slide-out" ><i class="material-icons">menu</i></a>
+		<a href="koreaTour.html" class="brand-logo center"><i class="material-icons">flight_land</i>Imagine My Korea</a>      
+
+		<div class="nav-content" style="font-family:Microsoft JhengHei">
+		  <ul class="tabs tabs-transparent" >
+		  <div class=row>
+		  	<!--active表示先把該page顯示出來-->
+		  	<li class="tab col l2"><a class="active" style="font-size:18px;" href="#home" >首頁</a></li>
+			<li class="tab col l2"><a href="#sites" style="font-size:18px;">景點</a></li>
+			<li class="tab col l2"><a href="#food" style="font-size:18px;">美食</a></li>
+			<li class="tab col l2"><a href="#hotel" style="font-size:18px;">飯店</a></li>
+			<li class="tab col l2"><a href="#traffic" style="font-size:18px;">交通</a></li>
+			<li class="tab"><a href="#buy" style="font-size:16px;">推薦商品</a></li>
+		  </div>
+		  </ul>
+		</div>
+	</nav>
+	<!--navbar over-->
+	<!--navbar 裡的href="#home對應div id="home"-->
+	<div id="home">
+		<!--youtube首頁影片-->
+		<p align="center"><iframe width="854" height="480" align="center" src="https://www.youtube.com/embed/Wc81iO4Lj34" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></p>
+        <!--條列式選單-->
+     	<ul class="collapsible" data-collapsible="accordion" style="font-family:Microsoft JhengHei;">
+		    <li>
+		    <!--超連結記得加target="_blank"開新分頁才會成功跳轉,html不支援(?)name跳轉-->
+		      <div class="collapsible-header"><i class="material-icons">location_on</i>景點</div>
+		      <div class="collapsible-body"><span>南山塔、明洞、景福宮、樂天...精選數個韓國必遊景點，相機手機自拍棒通通準備好<br><a href="#sites" target="_blank" style="font-size:16px;"/>點我</a></span></div>
+		    </li>
+		    <li>
+		      <div class="collapsible-header"><i class="material-icons">local_dining</i>美食</div>
+		      <div class="collapsible-body"><span>不容錯過的韓國美食，去過韓國別說你沒吃過<br><a href="#food" target="_blank" style="font-size:16px;">點我</a></span></div>
+		    </li>
+		    <li>
+		      <div class="collapsible-header"><i class="material-icons">directions_subway</i>交通</div>
+		      <div class="collapsible-body"><span>自由行不可或缺的大眾交通工具資訊，不會開車就要好好研究<br><a href="#traffic" target="_blank" style="font-size:16px;">點我</a></span></div>
+		    </li>
+		    <li>
+		      <div class="collapsible-header"><i class="material-icons">hotel</i>飯店</div>
+		      <div class="collapsible-body"><span>休息是為了走更長遠的路，有舒適的旅館休息才有力氣玩玩玩<br><a href="#hotel" target="_blank" style="font-size:16px;">點我</a></span></div>
+		    </li>
+		    <li>
+		      <div class="collapsible-header"><i class="material-icons">card_giftcard</i>推薦商品</div>
+		      <div class="collapsible-body"><span>不買會後悔的超夯商品，大家一起來推薦<br><a href="#buy" target="_blank" style="font-size:16px;">點我</a></span></div>
+		    </li>
+	  	</ul>
+
+	  	<br>
+        <div class="divider"></div>
+       	<br>
+
+	  	<div id="cal">
+	  	<p align="center" style="font-family:Microsoft JhengHei; color: #1565c0; font-size:22px;">快速轉換匯率</p><br>
+	  	<div class="row">
+        <div class="input-field col l2 offset-l3">
+          <input id="kr" type="text" class="validate">
+          <label for="kr">請輸入韓元</label>
+          <a class="waves-effect waves-light btn" onclick="trans()">轉台幣</a><br><br>
+          <output id="nt">台幣</output><p>NT</p>
+        </div>
+      	</div>
+    	</div>
+
+		<script>    
+			//implement collapsible function 
+			$(document).ready(function(){
+	    	$('.collapsible').collapsible();});
+
+	    	//計算匯率
+	    	function trans() {
+            var a = parseInt(document.getElementById('kr').value);
+            document.getElementById('nt').value =  a*0.02777 ;
+        }
+		</script>
+    
+    </div>
+    <!--home篇結束-->
+	<!--navbar 裡的href="#food對應div id="food"-->
+	<div id="food">
+	<br>
+  	<h4 style="font-family:Microsoft JhengHei; color: #1a237e; font-size:22px; margin-left:100px;">部落客們推薦的超夯韓國美食：</h4>
+  	<br>
+  	<br>
+	<div id = food_content class="row" align="center">
+	<iframe width=100% height=1280px frameborder=0 scrolling=auto src="try_fix_img1.html"></iframe>
+    </div>
+
+    <!--頁數-->
+    <ul class="pagination" align=center>
+	    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+	    <li class="active"><a href="#food">1</a></li>	    
+	    <li class="waves-effect"><a onclick="ChangePage()">2</button></li>
+	    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+  	</ul>
+  	<script>
+	function ChangePage() {
+	    document.getElementById("food_content").innerHTML = `<iframe width=100% height=1280px frameborder=0 scrolling=auto src="try_fix_img2.html"></iframe>`;
+	}
+	</script>
+  	<!--頁數over-->
+    </div>
+    <!--food篇結束-->
+    <!--navbar 裡的href="#sites對應div id="sites"-->
+  	<div id="sites">
+  	<br>
+  	<h4 style="font-family:Microsoft JhengHei; color: #1a237e; font-size:22px; margin-left:100px;">Facebook韓國旅遊達人分享：</h4>
+  	<br>
+  	<iframe width=100% height=300px frameborder=0 scrolling=auto src="my_autoplay.html"></iframe>
+  	<br>
+  	<h4 style="font-family:Microsoft JhengHei; color: #1a237e; font-size:22px; margin-left:100px;">精選韓國必去景點：</h4>
+  	<br>
+  	<div id = site_content class="row">
+    </div>
+  	
+  	</div>
+  	<!--sites篇結束-->
+  	<!--navbar 裡的href="#hotel"對應div id="hotel"-->
+  	<div id="hotel">
+  	<br>
+  	<h4 style="font-family:Microsoft JhengHei; color: #1a237e; font-size:22px; margin-left:100px;">精選數個部落客推薦CP值超高飯店：</h4>
+  	<br>
+  	<br>
+  	<div id = hotel_content class="row">
+    </div>
+    <div id="hotel_links">
+	    <p style="font-family:Microsoft JhengHei; color: #1a237e; font-size:22px;">更多飯店比價<br>
+	    <a href="https://tw.hotels.com/" target="_blank" style="font-size:18px;">Hotels.com</a><br>
+	    <a href="https://www.booking.com/" target="_blank" style="font-size:18px;">Booking.com</a><br>
+	    <a href="https://www.trivago.com.tw/" target="_blank" style="font-size:18px;">trivago</a><br>
+	    </p>
+	</div>
+    </div>
+    
+  	<!--hotel篇結束-->
+    <!--navbar 裡的href="#traffic"對應div id="traffic"-->
+  	<div id="traffic">
+  	<div id = traffic_content class="row">
+        <div class="col l8 offset-l2">
+
+        	<p style="font-family:Microsoft JhengHei; color: #1565c0; font-size:24px;">首爾地鐵圖路線</p>
+            <img src="map.jpg" width="80%">
+            <br>
+            <a href="http://www.seoulmetro.co.kr/cn/index.do?device=PC" target="_blank" style="font-size:18px;">首爾地鐵官方網站</a>
+            <p style="font-family:Microsoft JhengHei; font-size:16px;">首爾地鐵官方網站有中、日、英、韓四種語言，不會韓文也不用緊張</p>
+            <img src="metro.png" width="80%">
+            <br>
+            <p style="font-family:Microsoft JhengHei; font-size:18px; color:#ff1744">地鐵票價</p>
+            <table style="font-family:Microsoft JhengHei">
+	          <thead>
+	            <tr>
+	                <th>乘客</th>
+	                <th>交通卡</th>
+	                <th>單次票</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          <tr>
+		        <td>一般(19歲以上)</td>
+		        <td>[基本票價]<br> 10km 以内 : 1,250韓元<br>
+				[附加票價]<br>
+				-10~50km以内：每超過5km加收100韓元<br>
+				-超過50km：每超過8km加收100韓元<br>
+				-連續乘坐首都圈内、外地鐵時，首先適用首都圈内的票價，首都圈外（平澤-新昌，加平-春川）區間内每超過4km加收100韓元</td>
+		        <td>交通卡票價加100韓元</td>
+		    	</tr>
+	          </tbody>
+	        </table>
+
+            <br>
+            <div class="divider"></div>
+        	<br>
+
+        	<p style="font-family:Microsoft JhengHei; color: #1565c0; font-size:24px;">機場鐵路</p>
+            <img src="arex.png" width="80%">
+            <br>
+            <a href="https://www.arex.or.kr/content.do;jsessionid=vzKFTk1NdKL1Qx259SUMokVWi6DbqOU9FoTaqxBj9ZgtbPELMEEgRHXrzNhHm6pT.intweb2_servlet_hu?url=&menuNo=MN201503300000000002&contentNo=&clientLocale=zh_TW&clientDevice=Normal" target="_blank" style="font-size:18px;">機場鐵路官方網站</a>
+            <p style="font-family:Microsoft JhengHei; font-size:16px;">官方網站有中、日、英、韓四種語言，不會韓文也不用緊張<br>
+			普通列車：每一站都會停靠<br>
+			直達列車：從仁川機場直達地鐵首爾站<br>
+			</p>            
+            <br>
+            <p style="font-family:Microsoft JhengHei; font-size:18px; color:#ff1744">票價</p>
+            <table style="font-family:Microsoft JhengHei">
+	          <thead>
+	            <tr>
+	                <th>車種</th>
+	                <th>成人</th>
+	                <th>時間</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          <tr>
+		        <td>直達列車</td>
+		        <td>8000韓元</td>
+		        <td>仁川國際機場站 ~ 首爾站 : 43分鐘</td>
+		      </tr>
+		      <tr>
+		        <td>普通列車</td>
+		        <td>成人票價（基本票價）＝基本車資＋追加車資<br>
+					① 首都圈區間（首爾站 ~ 青羅國際城站）<br>
+					- 基本車資：10km內，1,250韓幣<br>
+					- 追加車資：超過10km,每5km追加100韓幣<br>
+					② 獨立票價區間（青羅國際城站 ~ 仁川國際機場站）<br>
+					- 基本車資：10km內，900韓幣<br>
+					- 追加車資：超過10km,每1km追加130韓幣</td>
+		        <td>仁川國際機場站 ~ 首爾站：58分鐘</td>
+		      </tr>
+	          </tbody>
+	        </table>
+
+            <br>
+            <div class="divider"></div>
+        	<br>
+
+            <p style="font-family:Microsoft JhengHei; color: #1565c0; font-size:24px;">T-money卡</p>
+            <img src="http://tchinese.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=16848&fileTy=MEDIA&fileNo=1" width="80%">
+            <br>
+            <p style="font-family:Microsoft JhengHei; font-size:16px;">
+			T-money卡在公車、地下鐵、計程車都可使用，以及在便利店也可使用的一般轉車卡。在卡內儲值想要的金額後，每次使用就會自動扣除金額。使用T-money卡搭乘公車和地下鐵時，會折價100韓元，並提供公車和地下鐵的轉乘換車優惠折價。若要享有此優惠，必須要在搭乘公車後及下車時掃描卡片（注意：在換車後最後一站從公車下車時，一定要掃描卡片）。換車優惠折價僅限於30分內完成換乘。
+			</p><br>
+			<p style="font-family:Microsoft JhengHei; font-size:18px; color:#ff1744">Tip</p>
+			<p style="font-family:Microsoft JhengHei; font-size:16px;">
+			首爾市內的傳統市場也可使用T-money進行消費。<br>
+			- 目前望遠、通仁、吉洞、貞陵、新院、靈泉、敦岩、東部、纛島、龍門、厚岩市場可使用，預計2018年擴大至所有市場皆可使用。<br>
+			- 使用T-money搭乘大眾交通後1小時內，若於傳統市場消費滿1萬韓元，可享有1,000韓元優惠。<br>
+			</p>
+			<p style="font-family:Microsoft JhengHei; font-size:18px; color:#ff1744">購買處</p>
+			<p style="font-family:Microsoft JhengHei; font-size:16px;">
+			T-money卡大部分可在便利店、地鐵站、旅遊情報中心購買或加值金額。卡片是 3,000韓元，加值金額不受限。T-money卡無截止期間，尚未使用的金額會一直存放在卡片裡，直到使用完畢。已加值的金額中，若想取回現金20,000韓元以內的小額，可在便利商店辦理退還金額。若要退還 20,000韓元 以上的餘額，就要到T-money 總部（首爾市中區南大門路5街首爾市T Tower TMoney Town 1樓）才能辦理。卡片費用不能退款。<br>
+			購買方式可參考<a href="http://monacama.pixnet.net/blog/post/394616644-%E5%A6%82%E4%BD%95%E8%BC%95%E9%AC%86%E6%90%AD%E4%B9%98%E9%A6%96%E7%88%BE%E5%9C%B0%E9%90%B5%28%E5%90%AB%E5%A5%BD%E7%94%A8%E5%9C%B0%E9%90%B5%E3%80%81%E5%9C%B0%E5%9C%96app" target="_blank" style="font-size:18px;">輕鬆搭乘首爾地鐵</a>或<a href="http://www.seoulmetro.co.kr/cn/page.do?menuIdx=721" target="_blank" style="font-size:18px;">首爾地鐵購卡方法</a>
+			</p>
+            <br>
+        </div>
+    </div>
+    </div>
+	<!--traffic篇結束-->
+	<!--buy-->
+	<div id="buy">
+  	<div id = buy_content class="row">
+  	  <div id="blist" class="col l8 offset-l1">
+  	  <h4 style="font-family:Microsoft JhengHei; color: #ff4081">推薦商品清單</h4>
+  	   <div id="list" style="background-color:#fce4ec"></div>
+  	  </div>
+  	  <br><br>
+  	  <img src="http://4.bp.blogspot.com/-l89m2G4rfeg/VhKQ3Ex96hI/AAAAAAAAVfc/Yvyy0Bs1LF4/s1600/CphH3zn.jpg" width="16%"> 	  
+  	  <br><br><br><br><br>
+  	  
+  	  <div class="divider"></div>
+  	  <!--表單-->
+  	  <br><br><br><br><br>
+  	  
+  	  <div class="row">
+  	    <form id="buyform" name="buyform" class="col l6 offset-l3" action="javascript:formresponse();">
+	      <div class="row">
+	       	  <h4 style="font-family:Microsoft JhengHei;">寫下你推薦的韓國超好用（吃）商品吧～</h4>
+	    
+	      	  <p>
+			    <input class="with-gap" name="who" type="radio" id="test1" value="親身體驗"/>
+			    <label for="test1">親身體驗</label>
+
+			    <input class="with-gap" name="who" type="radio" id="test2" value="大家都說好用"/>
+			    <label for="test2">大家都說好用</label>
+			  </p>
+			  <br>
+			  <br>
+
+	    	<div class="input-field col s10">
+			    <select id="chose">
+			      <option value="" disabled selected>選擇</option>
+			      <option value="食物">食物</option>
+			      <option value="美妝">美妝</option>
+			      <option value="穿著">穿著</option>
+			      <option value="配件">配件</option>
+			      <option value="紀念品">紀念品</option>
+			      <option value="其他">其他</option>
+			    </select>
+		    	<label>種類</label>
+		  	</div>
+
+		  	<div class="input-field col s10">
+	          <textarea id="item" class="materialize-textarea"></textarea>
+	          <label for="item">物品名稱</label>
+	        </div>
+
+	        <div class="input-field col s10">
+	          <textarea id="reason" class="materialize-textarea"></textarea>
+	          <label for="reason">備註/推薦原因(選填簡答)</label>
+	        </div>
+
+		  </div>
+		  <input type="submit" value="Submit">
+	    </form>
+	  </div>
+    </div>
+
+    </div>
+    <script type="text/javascript">
+    //下拉選單<select>
+	   	$(document).ready(function() {
+	    $('select').material_select();});
+	
+	//傳表單給google
+		function formresponse() {
+			//radio button
+			var w = document.forms["buyform"]["who"];
+			for (var x = 0; x <w.length; x ++) {
+			      if (w[x].checked) {
+			      	var who = w[x].value;
+			     }
+     		}
+
+     		//select選項
+			var k = document.getElementById('chose').selectedIndex ;
+			var kind = document.getElementsByTagName("option")[k].value;
+
+			//item名稱
+			var thing = document.forms["buyform"]["item"].value;
+			var reason = document.forms["buyform"]["reason"].value;
+
+			if (thing==null || thing=="")
+			   {
+				alert("物品名稱不可為空!");
+				return false;
+			   }
+			else
+			   {
+			   	var MySubmit = "https://docs.google.com/forms/d/e/1FAIpQLSdhhNIucfMgFoqaGQ9_36gsHW2glCFWcRpbA0rqsyOPeqaQzA/formResponse?entry.1922926126=" + who + "&entry.1279948213=" + kind +"&entry.425633203="+thing+"&entry.762361179="+reason;
+				
+				var NewOpen = window.open(MySubmit);
+			   }
+		}
+
+    </script>
+	<!--buy篇結束-->
+
+	<!--sideNav-->
+	<ul id="slide-out" class="side-nav">
+    <li>
+    <div class="user-view">
+      <div class="background">
+        <img src="https://img.banbi.tw/20170325140857_60.jpg">
+      </div>
+      <p><img class="circle" src="02.JPG"></p>
+      <p><span class="white-text name">Your Best Korean Seoulmate</span></p>
+    </div>
+    </li>
+    <li><a href="#home" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">首頁</a></li>
+	<li><a href="#sites" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">景點</a></li>
+	<li><a href="#food" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">美食</a></li>
+	<li><a href="#hotel" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">飯店</a></li>
+	<li><a href="#traffic" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">交通</a></li>
+	<li><a href="#buy" target="_blank" style="font-size: 16px;
+    font-family:Microsoft JhengHei;">推薦商品</a></li>		
+    <li><div class="divider"></div></li>
+    </ul>
+	   
+	<script>    
+		// Initialize collapse button
+		$(".button-collapse").sideNav();
+	</script>
+    <!--sideNav over-->
+	
+	<!--footer-->
+	<footer id="id_footer" class="page-footer deep-purple lighten-1">
+	  <div class="container">
+		<div class="row">
+		  <div class="col l6 s12">
+			<h5 class="white-text">第一次首爾自由行就上手</h5>
+		  </div>
+		  <div class="col l4 offset-l2 s12">
+			<h5 class="white-text">常用連結</h5>
+			<ul>
+			  <li><a class="grey-text text-lighten-3" href="http://big5chinese.visitkorea.or.kr/cht/index.kto" target="_blank">韓國觀光公社</a></li>
+			  <a class="grey-text text-lighten-3" href="https://map.hanchao.com/" target="_blank">韓巢地圖</a></li>
+			  <li><a class="grey-text text-lighten-3" href="http://rate.bot.com.tw/xrt?Lang=zh-tw" target="_blank">台灣銀行牌告匯率</a></li>
+			  <li><a class="grey-text text-lighten-3" href="https://www.skyscanner.com.tw/?langID=ZW&ksh_id=1651adff-213b-40fc-a897-db907c2d0113&associateID=SEM_GGF_00065_00037&utm_source=google&utm_medium=cpc&utm_campaign=TW-Flights-Search-Generic-Air%20Tickets-Exact&utm_term=%E6%A9%9F%E7%A5%A8&gclid=EAIaIQobChMI0Y_c8ZOa2AIV1worCh2z6wfmEAAYASAAEgJfi_D_BwE&associateid_proc=true"><i class="material-icons" target="_blank">airplanemode_active</i>Skyscanner機票比價</a></li>
+			  
+			</ul>
+		  </div>
+		</div>
+	  </div>
+	  <div class="footer-copyright">
+		<div class="container">
+		© 2017 Copyright Katze haus
+		</div>
+	  </div>
+    </footer>
+	<!--footer over-->
+	
+	<!--google sheet集中編輯-->
+	<!--google sheet到網頁-->
+	<script type="text/javascript">
+	  var a,b;
+      
+      var hotel_sheet = 'https://docs.google.com/spreadsheets/d/1xyyeDzisTQun4D9dQtT0n0Oe-Ht3H0gApc19uI9Sv8c/pubhtml',
+          buy_url = 'https://docs.google.com/spreadsheets/d/10wQbQjf3SCHg6amybPDLSwq-YLr9s6FVJn6IR_5gnco/pubhtml',
+          site_url = 'https://docs.google.com/spreadsheets/d/1sQrAd0w8Q86wGioUjvXr5i_hD3DSemqEqOqWIpvMSdY/pubhtml';
+      function init() {
+        a = Tabletop({
+            key: hotel_sheet,
+            callback: showInfo2,
+            simpleSheet: true
+        });
+        b = Tabletop({
+            key: buy_url,
+            callback: showInfo1,
+            simpleSheet: true
+        });
+        c = Tabletop({
+            key: site_url,
+            callback: showInfo3,
+            simpleSheet: true
+        });
+      }
+	  function showInfo1(data, tabletop) {
+  		//推薦表單
+  		var buy_text= `<table class="striped">
+          <thead>
+            <tr>
+                <th>接觸商品方式</th>
+                <th>種類</th>
+                <th>Item</th>
+                <th>備註/推薦原因(簡答)</th>
+            </tr>
+          </thead>
+          <tbody>
+          `;
+
+		for (var i=0; i<data.length; i++) {
+		// 於Google Spreadsheet建立的範例資料A欄為who、B欄為catogory、C欄為name
+			buy_text +=`<tr>
+	        <td>`+data[i].who+`</td>
+	        <td>`+data[i].category+`</td>
+	        <td>`+data[i].name+`</td>
+	        <td>`+data[i].reason+`</td>
+	    	</tr>`;
+        }
+        buy_text += `</tbody>
+        </table>`;
+        
+  		document.getElementById("list").innerHTML = buy_text;
+  		}
+ 
+	  	function showInfo2(data, tabletop) {
+	  		//飯店
+	  		var text= "";
+	  		for (var i=0; i<data.length; i++) {
+  		// 於Google Spreadsheet建立的範例資料
+  			text +=`<div class="col s12 l10 offset-l1">
+          	<div class="medium card horizontal">
+          		<div class="card-image">
+          			<img src=`+data[i].img+` height:400px>
+          		</div>
+          		<div class="card-stacked">
+          		<div class="card-content">
+          			<p style="font-family:Microsoft JhengHei; color:#ff0066; font-size:20px">`+data[i].name+`</p><br>
+          			<p style="font-family:Microsoft JhengHei; font-size:16px">地址:  `+data[i].addr+`</p><br>
+          			<p style="font-family:Microsoft JhengHei; font-size:16px">電話:  `+data[i].tel+`</p><br>
+          			<p style="font-family:Microsoft JhengHei; font-size:16px">區域/交通:  `+data[i].area+`</p><br>
+          		</div>
+          		<div class="card-action">
+          			<a href="`+data[i].url+`">hotels.com看房間</a>
+          		</div>
+          		</div>
+          	</div>
+          </div>`;
+          }
+	  	document.getElementById("hotel_content").innerHTML = text;
+	  	}
+
+	  	function showInfo3(data, tabletop) {
+	  		//景點site
+	  		var site_text= "";
+	  		for (var i=0; i<data.length; i++) {
+  		// 於Google Spreadsheet建立的範例資料
+  			 site_text +=`<div class="col s12 l10 offset-l1">
+          	<div class="medium card horizontal">
+          		<div class="card-image">
+          			<img src=`+data[i].img+` height:400px>
+          		</div>
+          		<div class="card-stacked">
+          		 <div class="card-content">
+          			<p style="font-family:Microsoft JhengHei; color:#ff0066; font-size:20px">`+data[i].name+`</p><br>
+          			<p style="font-family:Microsoft JhengHei; font-size:16px">簡介: <br>`+data[i].info+`<br></p><br>
+          			<iframe src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=`+data[i].lat+','+data[i].lon+`&z=16&t=p&output=embed" height="200" width="300"></iframe>
+          		 </div>
+          		 <div class="card-action" align="right">
+          			<a href="`+data[i].url+`">點我看詳細資料</a>
+          		 </div>
+          		</div>
+          	</div>
+          </div>`;
+          }
+	  	document.getElementById("site_content").innerHTML = site_text;
+	  	}
+	  	window.addEventListener('DOMContentLoaded', init)
+    </script>
+    </body>
+	
+  </html>

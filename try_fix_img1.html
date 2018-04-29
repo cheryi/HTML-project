@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <!--Lesson5-->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">     
+      <!-- 利用Tabletop.JS讀取Google Sheet https://github.com/jsoma/tabletop -->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+  <script>
+  var url="https://emma.pixnet.cc/blog/articles/search?user=pinru1007&key=韓國首爾&format=json&page=1&per_page=100&api_version=2";
+
+  function loadTxt(url, div_id)
+  {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange=function()
+      {
+        if (xmlhttp.readyState==4&&xmlhttp.status==200){
+          var myArr = JSON.parse(xmlhttp.responseText);
+          ShowPixnet(myArr,div_id);
+        }
+      };
+      xmlhttp.open("GET", url, true);
+      xmlhttp.send();
+  }
+
+  function ShowPixnet(arr,div_id) {
+    var data = arr.articles;   
+    var i;
+    var out = `<div class="row">`;
+
+    for (i = 0; i < data.length; i++) {
+      if ( data[i].tags.length != 0 ){
+        for (j = 0; j < data[i].tags.length; j++) {
+            //tag有美食者才用         
+            if ((data[i].tags[j].tag.match('美食')!=null)&&(data[i].thumb != "")){
+              //out += data[i].tags[j].tag ;
+              out+=`
+                    <div class="col s12 m7 l4 offset-l1">
+                      <div class="card small">
+                        <div class="card-image">`;
+              
+              //real=https://pic.pimg.tw/pinru1007/1472561123-2774540969.jpg
+              //thumb=https:\/\/s5.pimg.tw\/album\/pinru1007\/element\/658779095_1472561123-2774540969\/zoomcrop\/90x90.jpg
+              var re=/(\w*)album\/(.*)element\/(.*)zoomcrop\/(.*)90x90/g;
+              var after_dir=data[i].thumb.replace(re,"$1$2$3$4").replace(/s[0-9]/g,"pic").replace(/s\./g,"pic.");
+              var underline=parseInt(after_dir.search('_'));
+              var num_1st=after_dir.substr(0,underline).lastIndexOf('/');
+              var last_slash=after_dir.substr(underline+1).lastIndexOf('/');
+              var real_img=after_dir.substr(0,num_1st+1)+after_dir.substr(underline+1,last_slash);
+              
+              if (data[i].thumb.match('jpg')!=null){
+                out += '<img src="' + real_img + '.jpg"></div>';  
+              }
+              else{
+                out += '<img src="' + real_img + '.png"></div>';   
+              }
+
+              if ( data[i].title != "" ) 
+                out += `<div class="card-action">
+              <a href=` + data[i].link + ` target="_blank" style="color:#ff1744">` + data[i].title + '</a>';
+              out += `</div>
+                    </div>
+                  </div>`;
+              i++;
+            }            
+          }
+      }
+    }
+    out+='</div>';
+    document.getElementById(div_id).innerHTML = out;
+  }
+  loadTxt(url,"pixnet-stuff");
+
+</script>
+
+<body>
+  <div id="pixnet-stuff"  align="center">
+  <!--loading page的轉圈圈-->
+    <div class="preloader-wrapper big active">
+         <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+  <!--轉完-->
+  </div>
+ 
+</body>
+</html>
